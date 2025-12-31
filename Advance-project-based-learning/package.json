@@ -2,10 +2,15 @@
   "name": "advance-project-based-learning",
   "version": "1.0.0",
   "description": "a demo project for learning",
+  "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon src/index.js"
   },
   "author": "Himanshu Khare",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.11",
+    "prettier": "^3.7.4"
+  }
 }
