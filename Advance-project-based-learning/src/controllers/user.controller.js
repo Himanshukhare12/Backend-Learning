@@ -17,7 +17,11 @@ const registerUser = asyncHandler(async (req, res) =>{
     throw new ApiError(409, "Username or email already exists")
 
     const avatarLocalPath = req.files?.avatar[0]?.path
-    const coverImageLocalPath = req.files?.coverImage[0]?.path
+    //const coverImageLocalPath = req.files?.coverImage[0]?.path this code is risky if coverImage is not provided
+    let coverImageLocalPath;
+    if(req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0) {
+        coverImageLocalPath = req.files.coverImage[0].path;
+    }
     if(!avatarLocalPath)
     throw new ApiError(400, "Avatar file is required")
 
@@ -40,9 +44,9 @@ const registerUser = asyncHandler(async (req, res) =>{
     if(!createdUser)
     throw new ApiError(500, "Something went wrong while registering the user")
 
-    res.status(201).json({
+    res.status(201).json(
         new ApiResponse(200, createdUser, "User registered successfully")
-    })
+    )
 
 
 })
