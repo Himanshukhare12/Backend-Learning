@@ -15,6 +15,7 @@ const uploadOnCloudinary = async (localFilePath)=>{
         // Remove file from local uploads folder
         //do console.log(response.url to see the public url of uploaded file)
         fs.unlinkSync(localFilePath)
+        //console.log(response); do it when curious about how response looks like
         return response;
     }
     catch(error){

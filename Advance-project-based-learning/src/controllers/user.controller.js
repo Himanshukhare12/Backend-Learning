@@ -3,10 +3,11 @@ import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from  "../utils/aysncHandler.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js"
-
+import fs from 'fs';
 const registerUser = asyncHandler(async (req, res) =>{
     
     const {username, email, fullName, password} = req.body;
+    //console.log(req.body); do it to see how body looks like
     if([username, email, password, fullName].some((field) => field?.trim() === ""))
     throw new ApiError(400, "All fields are required")
     
@@ -14,14 +15,29 @@ const registerUser = asyncHandler(async (req, res) =>{
         $or: [{username}, {email}]
     })
     if(existedUser)
-    throw new ApiError(409, "Username or email already exists")
-
+    {
+        if(req.files?.avatar?.[0]?.path)
+        {
+            //delete the uploaded avatar file from local uploads folder if user already exists
+            fs.unlinkSync(req.files.avatar[0].path)
+        } 
+        if(req.files?.coverImage?.[0]?.path)
+        {
+            //delete the uploaded avatar file from local uploads folder if user already exists
+            fs.unlinkSync(req.files.coverImage[0].path)
+        }    
+        throw new ApiError(409, "Username or email already exists")
+    }   
+    //console.log(req.files); do it to see how files look like
     const avatarLocalPath = req.files?.avatar[0]?.path
-    //const coverImageLocalPath = req.files?.coverImage[0]?.path this code is risky if coverImage is not provided
-    let coverImageLocalPath;
-    if(req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0) {
-        coverImageLocalPath = req.files.coverImage[0].path;
+    const coverImageLocalPath = req.files?.coverImage?.[0]?.path
+    /*also check like this 
+    let coverImageLocalPath
+    if(req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0){
+        coverImageLocalPath = req.files.coverImage[0].path
     }
+    */ 
+
     if(!avatarLocalPath)
     throw new ApiError(400, "Avatar file is required")
 
