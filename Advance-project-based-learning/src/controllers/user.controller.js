@@ -195,7 +195,7 @@ const updateAccountDetails = asyncHandler(async(req, res) => {
     .json(new ApiResponse(200, user, "Account details updated successfully"))
 })
 
-    const updateUserAvatar = asyncHandler(async(req, res)=>{
+const updateUserAvatar = asyncHandler(async(req, res)=>{
         const avatarLocalPath = req.file?.path
         if(!avatarLocalPath)
         throw new ApiError(400, "Avatar file is required")
@@ -214,8 +214,8 @@ const updateAccountDetails = asyncHandler(async(req, res) => {
             return res
             .status(200)
             .json(new ApiResponse(200, user, "User avatar updated successfully"))
-    })
-    const updateUserCoverImage = asyncHandler(async(req, res)=>{
+})
+const updateUserCoverImage = asyncHandler(async(req, res)=>{
         const coverImageLocalPath = req.file?.path
         if(!coverImageLocalPath)
         throw new ApiError(400, "Cover image file is required")
@@ -234,6 +234,6 @@ const updateAccountDetails = asyncHandler(async(req, res) => {
             return res
             .status(200)
             .json(new ApiResponse(200, user, "User cover image updated successfully"))
-    })
+})
 
 export { registerUser, loginUser, logoutUser, refreshAccessToken, changeCurrentPassword, getCurrentUser, updateAccountDetails, updateUserAvatar, updateUserCoverImage };
