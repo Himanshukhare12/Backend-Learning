@@ -193,6 +193,7 @@ const updateAccountDetails = asyncHandler(async(req, res) => {
     return res
     .status(200)
     .json(new ApiResponse(200, user, "Account details updated successfully"))
+})
 
     const updateUserAvatar = asyncHandler(async(req, res)=>{
         const avatarLocalPath = req.file?.path
@@ -234,6 +235,5 @@ const updateAccountDetails = asyncHandler(async(req, res) => {
             .status(200)
             .json(new ApiResponse(200, user, "User cover image updated successfully"))
     })
-})
 
 export { registerUser, loginUser, logoutUser, refreshAccessToken, changeCurrentPassword, getCurrentUser, updateAccountDetails, updateUserAvatar, updateUserCoverImage };
